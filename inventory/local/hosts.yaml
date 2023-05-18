@@ -1,0 +1,30 @@
+all:
+  hosts:
+    k8s1:
+      ansible_host: <IP_MACHINE_1>
+      ip: <IP_MACHINE_1>
+      access_ip: <IP_MACHINE_1>
+      ansible_user: ubuntu
+    k8s2:
+      ansible_host: <IP_MACHINE_2>
+      ip: <IP_MACHINE_2>
+      access_ip: <IP_MACHINE_2>
+      ansible_user: ubuntu
+  children:
+    kube_control_plane:
+      hosts:
+        k8s1:
+        k8s2:
+    kube_node:
+      hosts:
+        k8s1:
+        k8s2:
+    etcd:
+      hosts:
+        k8s1:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
